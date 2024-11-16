@@ -4,10 +4,9 @@ import com.example.transport_service.domain.entity.TransportType;
 import com.example.transport_service.service.TransportTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/transport-types")
@@ -22,6 +21,25 @@ public class TransportTypeController {
               transportTypeService.createTransportType(transportType)
             );
         } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/all")
+    ResponseEntity<?> getAllTransportTypes() {
+        try {
+            return ResponseEntity.ok().body(transportTypeService.getAllTransportTypes());
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{transportTypeId}")
+    ResponseEntity<?> deleteTransportTypeById(@PathVariable UUID transportTypeId) {
+        try {
+            transportTypeService.deleteTransportType(transportTypeId);
+            return ResponseEntity.ok().body(String.format("Тип транспорта с id : %s успешно удален.", transportTypeId));
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

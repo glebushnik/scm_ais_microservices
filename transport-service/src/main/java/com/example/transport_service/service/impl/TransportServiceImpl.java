@@ -56,12 +56,27 @@ public class TransportServiceImpl implements TransportService {
     }
 
     @Override
-    public TransportDTO updateTransportById(UUID id) {
-        return null;
+    public TransportDTO updateTransportDriverById(UUID id, UUID driverId) {
+        var transportOpt = transportRepo.findById(id);
+
+        if (transportOpt.isEmpty()) {
+            throw new EntityNotFoundException("Транспорт с ID " + id + " не найден.");
+        }
+
+        var transport = transportOpt.get();
+        transport.setDriverId(driverId);
+        return transportMapper.entityToDTO(transportRepo.save(transport));
     }
+
 
     @Override
     public void deleteTransportById(UUID id) {
+        var transportOpt = transportRepo.findById(id);
 
+        if (transportOpt.isEmpty()) {
+            throw new EntityNotFoundException("Транспорт с ID " + id + " не найден.");
+        }
+
+        transportRepo.deleteById(id);
     }
 }
