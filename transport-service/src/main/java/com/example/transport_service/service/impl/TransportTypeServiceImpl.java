@@ -17,24 +17,12 @@ public class TransportTypeServiceImpl implements TransportTypeService {
     public TransportType createTransportType(TransportType transportType) {
         return transportTypeRepo.save(transportType);
     }
-
     @Override
     public void deleteTransportType(UUID transportTypeId) {
 
     }
-
-    @Override
-    public TransportType getTransportTypeByI(UUID transportTypeId) {
-        return null;
-    }
-
     @Override
     public List<TransportType> getAllTransportTypes() {
-        return null;
-    }
-
-    @Override
-    public TransportType updateTransportTypeById(UUID transportTypeId) {
         return null;
     }
 }

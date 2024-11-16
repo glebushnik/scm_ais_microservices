@@ -39,8 +39,9 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	implementation("org.springframework.data:spring-data-jdbc:3.3.5")
-	implementation ("io.springfox:springfox-swagger2:2.7.0")
-	implementation ("io.springfox:springfox-swagger-ui:2.7.0")
+
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
+
 }
 
 dependencyManagement {

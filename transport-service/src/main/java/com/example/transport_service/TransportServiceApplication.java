@@ -6,8 +6,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @EnableDiscoveryClient
 @SpringBootApplication
-@EnableSwagger2
-@EnableWebMvc
 public class TransportServiceApplication {
 
 	public static void main(String[] args) {
