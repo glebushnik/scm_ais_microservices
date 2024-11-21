@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/transport
+    url: jdbc:postgresql://localhost:5432/users
     username: admin
     password: admin
     driver-class-name: org.postgresql.Driver
@@ -16,16 +16,19 @@ spring:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   application:
-    name: transport-service
+    name: user-service
+
+
 management:
   endpoints:
     web:
       exposure:
         include: health, info
+
 eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
 
 server:
-  port: 8081
+  port: 8080
