@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @OpenAPIDefinition(
         info =@Info(
-                title = "DocumentAppApi",
+                title = "UserServiceApi",
                 version = "",
                 contact = @Contact(
                         name = "Gleb Timoshenko", email = "glebushnik@gmail.com", url = "https://github.com/glebushnik"
