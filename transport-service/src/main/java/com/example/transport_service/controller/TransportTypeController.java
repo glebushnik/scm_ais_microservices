@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/transport/types")
+@RequestMapping("/api/v1/transport-types")
 @RequiredArgsConstructor
 public class TransportTypeController {
     private final TransportTypeService transportTypeService;

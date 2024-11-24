@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 @SecurityRequirement(name = "Bearer Authentication")
 public class UserController {
