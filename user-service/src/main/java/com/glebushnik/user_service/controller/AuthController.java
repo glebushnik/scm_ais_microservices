@@ -123,6 +123,14 @@ public class AuthController {
     }
 
     @GetMapping("/validate-token")
+    @Operation(
+            summary = "Валидация токена для микросервисов и гейтвея.",
+            description = "Получаем ответ: валидный токен или нет.",
+            tags = { "users", "get" })
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema()) }),
+            @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema()) }),
+            @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
     public ResponseEntity<?> validateToken(@RequestParam("token") String token) {
         try {
             jwtService.validateToken(token);
