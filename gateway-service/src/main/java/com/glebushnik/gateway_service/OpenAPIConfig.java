@@ -9,12 +9,11 @@ import org.springframework.context.annotation.Configuration;
 @OpenAPIDefinition
 @Configuration
 public class OpenAPIConfig {
-
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI().info(new Info()
                 .title("API Gateway Service")
                 .description("API Gateway Service")
-                .version("1.0.0"));
+                .version("v1"));
     }
 }

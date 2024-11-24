@@ -1,17 +1,15 @@
-package com.glebushnik.user_service.config;
+package com.example.transport_service.config;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
-import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @OpenAPIDefinition(
         info =@Info(
-                title = "UserServiceApiDocumentation",
+                title = "TransportServiceApiDocumentation",
                 version = "v1",
                 contact = @Contact(
                         name = "Gleb Timoshenko", email = "glebushnik@gmail.com", url = "https://github.com/glebushnik"
@@ -22,11 +20,5 @@ import org.springframework.context.annotation.Configuration;
                 description = "User service"
         )
 )
-@SecurityScheme(
-        name = "Bearer Authentication",
-        type = SecuritySchemeType.HTTP,
-        bearerFormat = "JWT",
-        scheme = "bearer"
-)
-public class OpenApiSecurityConfiguration {
+public class OpenApiConfig {
 }
