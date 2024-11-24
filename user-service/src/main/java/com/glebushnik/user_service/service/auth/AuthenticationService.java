@@ -62,4 +62,9 @@ public class AuthenticationService {
                 .newPassword(request.getPassword())
                 .build();
     }
+
+    public String validateToken(String token){
+        jwtService.validateToken(token);
+        return "Token is valid";
+    }
 }
