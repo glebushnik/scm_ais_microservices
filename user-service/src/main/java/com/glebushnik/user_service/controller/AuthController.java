@@ -15,10 +15,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -121,6 +118,16 @@ public class AuthController {
         try {
             return ResponseEntity.ok().body(authenticationService.changePassword(request));
         } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/validate-token")
+    public ResponseEntity<?> validateToken(@RequestParam("token") String token) {
+        try {
+            jwtService.validateToken(token);
+            return ResponseEntity.ok().body("Token is valid");
+        } catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

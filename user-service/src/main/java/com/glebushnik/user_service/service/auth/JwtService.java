@@ -1,6 +1,7 @@
 package com.glebushnik.user_service.service.auth;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -69,5 +70,10 @@ public class JwtService {
     private Key getSigningKey() {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    public Jws<Claims> validateToken(final String token) {
+        Jws<Claims> claimsJws= Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token);
+        return claimsJws;
     }
 }
