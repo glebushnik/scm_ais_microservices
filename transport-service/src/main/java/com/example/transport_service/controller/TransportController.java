@@ -2,6 +2,7 @@ package com.example.transport_service.controller;
 
 import com.example.transport_service.domain.DTO.ClientTransportDTO;
 import com.example.transport_service.service.TransportService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +12,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/transport")
+@SecurityRequirement(name = "Bearer Authentication")
 public class TransportController {
+
     private final TransportService transportService;
 
     @PostMapping("/create")
