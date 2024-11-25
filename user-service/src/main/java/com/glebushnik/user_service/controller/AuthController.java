@@ -131,11 +131,11 @@ public class AuthController {
             @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = ChangePassResponse.class), mediaType = "application/json") }),
             @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema()) }),
             @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
-    public ResponseEntity<?> validateToken(@RequestParam("token") String token) {
+    public String validateToken(@RequestParam("token") String token) {
         try {
-            return ResponseEntity.ok().body(authenticationService.validateToken(token));
+            return authenticationService.validateToken(token);
         } catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return e.getMessage();
         }
     }
 
