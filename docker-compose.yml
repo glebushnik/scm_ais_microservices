@@ -33,11 +33,20 @@ services:
       - postgres
     environment:
       SPRING_PROFILES_ACTIVE: docker
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/eureka
-      SPRING_DATASOURCE_USERNAME: admin
-      SPRING_DATASOURCE_PASSWORD: admin
     ports:
       - "8761:8761"
+
+  gateway-service:
+    build:
+      context: ./gateway-service
+    container_name: gateway_service
+    depends_on:
+      - postgres
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-register:8761/eureka/
+    ports:
+      - "8080:8080"
 
   transport-service:
     build:
@@ -69,7 +78,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: admin
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-register:8761/eureka/
     ports:
-      - "8080:8080"
+      - "8082:8082"
 
 volumes:
   postgres:
