@@ -31,26 +31,26 @@ public class GatewayConfig {
                 .build();
     }
 
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowCredentials(true);
-        configuration.addAllowedOrigin("*");
-        configuration.addAllowedHeader("*");
-        configuration.addAllowedMethod(HttpMethod.GET);
-        configuration.addAllowedMethod(HttpMethod.POST);
-        configuration.addAllowedMethod(HttpMethod.PUT);
-        configuration.addAllowedMethod(HttpMethod.DELETE);
-        configuration.addAllowedMethod(HttpMethod.OPTIONS);
-        configuration.addAllowedMethod(HttpMethod.PATCH);
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
-
-    @Bean
-    public CorsFilter corsFilter() {
-        return new CorsFilter(corsConfigurationSource());
-    }
+//    @Bean
+//    public CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        configuration.setAllowCredentials(true);
+//        configuration.addAllowedOrigin("*");
+//        configuration.addAllowedHeader("*");
+//        configuration.addAllowedMethod(HttpMethod.GET);
+//        configuration.addAllowedMethod(HttpMethod.POST);
+//        configuration.addAllowedMethod(HttpMethod.PUT);
+//        configuration.addAllowedMethod(HttpMethod.DELETE);
+//        configuration.addAllowedMethod(HttpMethod.OPTIONS);
+//        configuration.addAllowedMethod(HttpMethod.PATCH);
+//
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//        return source;
+//    }
+//
+//    @Bean
+//    public CorsFilter corsFilter() {
+//        return new CorsFilter(corsConfigurationSource());
+//    }
 }
