@@ -7,10 +7,17 @@ spring:
     gateway:
       globalcors:
         cors-configurations:
-          '[/**]':
-            allowedOrigins: "*" # Разрешить запросы со всех доменов
-            allowedMethods: "*" # Разрешить все HTTP-методы
-            allowedHeaders: "*" # Разрешить все заголовки
+          '[/**]': # Применяется ко всем маршрутам
+            allowedOrigins:
+              - "http://localhost:3000" # Укажите домены, которые могут отправлять запросы
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
       routes:
         - id: user-service
           uri: lb://USER-SERVICE
