@@ -5,19 +5,19 @@ spring:
 
   cloud:
     gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
       globalcors:
-        cors-configurations:
-          '[/**]': # Применяется ко всем маршрутам
-            allowedOrigins:
-              - "http://localhost:3000" # Укажите домены, которые могут отправлять запросы
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://127.0.0.1:3000,http://127.0.0.1:3001"
+            allowedHeaders: "*"
             allowedMethods:
               - GET
               - POST
-              - PUT
               - DELETE
+              - PUT
               - OPTIONS
-            allowedHeaders: "*"
-            allowCredentials: true
       routes:
         - id: user-service
           uri: lb://USER-SERVICE
