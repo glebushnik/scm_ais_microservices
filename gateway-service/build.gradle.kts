@@ -27,15 +27,11 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 	implementation("org.projectlombok:lombok:1.18.28")
-	// JWT dependencies
 	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
-
-	// Servlet API for compatibility (if needed)
+	implementation("org.springframework.boot:spring-boot-starter-security:3.4.0")
 	implementation("jakarta.servlet:jakarta.servlet-api:6.0.0")
-
-	// Testing dependencies
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
