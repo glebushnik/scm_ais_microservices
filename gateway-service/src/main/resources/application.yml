@@ -5,13 +5,19 @@ spring:
 
   cloud:
     gateway:
-      default-filters:
-        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
       routes:
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
             - Path=/api/v1/auth/**, /api/v1/users/**
+          metadata:
+            cors:
+              allowedOrigins: '*'
+              allowedMethods:
+                - GET
+                - POST
+              allowedHeaders: '*'
+              maxAge: 30
         - id: transport-service
           uri: lb://TRANSPORT-SERVICE
           predicates:
