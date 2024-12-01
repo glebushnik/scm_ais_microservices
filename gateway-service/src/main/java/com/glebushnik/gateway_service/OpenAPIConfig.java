@@ -8,11 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@OpenAPIDefinition(
-        servers = {
-                @Server(url = "/myapp/", description = "Default Server URL")
-        }
-)
 public class OpenAPIConfig {
     @Bean
     public OpenAPI customOpenAPI() {
