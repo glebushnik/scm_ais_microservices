@@ -1,4 +1,8 @@
 spring:
+  security:
+    user:
+      name: admin
+      password: admin
   main:
     allow-bean-definition-overriding: true
   application:
