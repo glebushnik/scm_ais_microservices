@@ -1,24 +1,11 @@
 spring:
-
+  main:
+    allow-bean-definition-overriding: true
   application:
     name: gateway-service
 
   cloud:
     gateway:
-      globalcors:
-        cors-configurations:
-          '[/**]':
-            allowedOrigins:
-              - "*"
-            allowedMethods:
-              - "*"
-            allowedHeaders:
-              - "*"
-            exposedHeaders:
-              - "*"
-        add-to-simple-url-handler-mapping: true
-      default-filters:
-        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origi
       routes:
         - id: user-service
           uri: lb://USER-SERVICE
