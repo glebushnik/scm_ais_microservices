@@ -1,10 +1,5 @@
 spring:
-  security:
-    user:
-      name: admin
-      password: admin
-  main:
-    allow-bean-definition-overriding: true
+
   application:
     name: gateway-service
 
@@ -13,9 +8,13 @@ spring:
       globalcors:
         corsConfigurations:
           '[/**]':
-            allowedOrigins: "https://www.baeldung.com"
+            allowedOrigins: "*"
             allowedMethods:
               - GET
+              - OPTIONS
+              - PUT
+              - POST
+              - DELETE
             allowedHeaders: "*"
       routes:
         - id: user-service
