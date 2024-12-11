@@ -3,6 +3,7 @@ package com.glebushnik.user_service.service.user;
 import com.glebushnik.user_service.domain.dto.user.UserRequestDTO;
 import com.glebushnik.user_service.domain.dto.user.UserResponseDTO.UserResponseDTO;
 import com.glebushnik.user_service.domain.mapper.UserMapper;
+import com.glebushnik.user_service.kafka.producers.UserTransportProducer;
 import com.glebushnik.user_service.repo.RefreshTokenRepo;
 import com.glebushnik.user_service.repo.UserRepo;
 import jakarta.persistence.EntityNotFoundException;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -19,7 +21,7 @@ public class UserService {
     private final UserRepo userRepo;
     private final RefreshTokenRepo refreshTokenRepo;
     private final UserMapper userMapper;
-
+    private final UserTransportProducer userTransportProducer;
     public List<UserResponseDTO> getAllUsers() {
         return userRepo.findAll().stream().map(userMapper::eToDTO).collect(Collectors.toList());
     }
@@ -53,4 +55,18 @@ public class UserService {
     public UserResponseDTO getCurrentUser(String userNameFromAccess) {
         return userMapper.eToDTO(userRepo.findByEmail(userNameFromAccess).get());
     }
+
+    public void addTransportToUser(UUID userId, Map<String, Object> transportAssignment) {
+        var user = userRepo.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Пользователь с id: %s не найден", userId)));
+
+        // Убедимся, что Map содержит необходимые ключи
+        if (!transportAssignment.containsKey("userId") || !transportAssignment.containsKey("transportIds")) {
+            throw new IllegalArgumentException("Переданы некорректные данные для назначения транспорта.");
+        }
+
+        // Формируем сообщение для Kafka
+        userTransportProducer.sendAssignment("user-transport-assignment-topic", transportAssignment);
+    }
+
 }

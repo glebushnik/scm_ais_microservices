@@ -32,7 +32,7 @@ public class TransportServiceImpl implements TransportService {
         }
 
         Transport transport = Transport.builder()
-                .driverId(transportDTO.driverId())
+                .userId(transportDTO.driverId())
                 .transportTypeId(transportType)
                 .regNumber(transportDTO.regNumber())
                 .volume(transportDTO.volume())
@@ -64,7 +64,7 @@ public class TransportServiceImpl implements TransportService {
         }
 
         var transport = transportOpt.get();
-        transport.setDriverId(driverId);
+        transport.setUserId(driverId);
         return transportMapper.entityToDTO(transportRepo.save(transport));
     }
 
@@ -79,4 +79,20 @@ public class TransportServiceImpl implements TransportService {
 
         transportRepo.deleteById(id);
     }
+
+    @Override
+    public void assignUserToTransport(List<UUID> transportIds, UUID userId) {
+        List<Transport> transports = transportRepo.findAllById(transportIds);
+
+        if (transports.isEmpty()) {
+            throw new RuntimeException("No transports found for provided IDs");
+        }
+
+        // Устанавливаем `userId` для каждого транспорта
+        transports.forEach(transport -> transport.setUserId(userId));
+
+        // Сохраняем все измененные объекты
+        transportRepo.saveAll(transports);
+    }
+
 }

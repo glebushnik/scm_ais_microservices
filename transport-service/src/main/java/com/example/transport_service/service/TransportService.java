@@ -15,4 +15,6 @@ public interface TransportService {
     List<TransportDTO> getAllTransport();
     TransportDTO updateTransportDriverById(UUID id, UUID driverId);
     void deleteTransportById(UUID id);
+
+    void assignUserToTransport(List<UUID> transportId, UUID userId);
 }

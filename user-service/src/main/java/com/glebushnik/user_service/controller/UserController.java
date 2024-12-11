@@ -17,6 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -112,6 +113,25 @@ public class UserController {
     public ResponseEntity<?> updateUserById(@PathVariable UUID userId, @RequestBody UserRequestDTO requestDTO) {
         try {
             return ResponseEntity.ok().body(userService.updateUserById(userId, requestDTO));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/{userId}/add-car")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @Operation(
+            summary = "Связать пользователя с транспортом.",
+            description = "Получаем сообщение успеха.",
+            tags = { "admin", "users", "put"})
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = String.class), mediaType = "application/json") }),
+            @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }),
+            @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
+    public ResponseEntity<?> addTransportToUser(@PathVariable UUID userId, @RequestBody Map<String, Object> transportAssignment) {
+        try {
+            userService.addTransportToUser(userId, transportAssignment);
+            return ResponseEntity.ok().body("User: " + userId + " assigned to transport: " + transportAssignment.get("transportIds"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
