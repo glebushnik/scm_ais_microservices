@@ -16,31 +16,29 @@ import org.springframework.web.reactive.config.WebFluxConfigurer;
 public class GatewayConfig {
 
     @Autowired
-    private AuthenticationFilter filter; // Используем инжекцию фильтра
+    private AuthenticationFilter filter;
 
     @Bean
     public RouteLocator routes(RouteLocatorBuilder builder) {
         return builder.routes()
-                // Маршрут для аутентификации (без валидации токена)
                 .route("auth_route", r -> r.path("/api/v1/auth/**")
-                        .uri("lb://USER-SERVICE")) // Прокси на USER-SERVICE для аутентификации
-                // Все остальные маршруты с валидацией токенов
+                        .uri("lb://USER-SERVICE"))
                 .route("secured_routes", r -> r.path("/api/v1/transport/**")
-                        .filters(f -> f.filter(filter)) // Применяем фильтр, используя инжектированный фильтр
-                        .uri("lb://TRANSPORT-SERVICE")) // Прокси на TRANSPORT-SERVICE
+                        .filters(f -> f.filter(filter))
+                        .uri("lb://TRANSPORT-SERVICE"))
                 .build();
     }
 
-//    @Bean
-//    CorsWebFilter corsFilter() {
-//        CorsConfiguration config = new CorsConfiguration();
-//        config.setAllowCredentials(true);
-//        config.addAllowedOrigin("https://www.baeldung.com");
-//        config.addAllowedHeader("*");
-//        config.addAllowedMethod("*");
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", config);
-//        return new CorsWebFilter(source);
-//    }
+    @Bean
+    CorsWebFilter corsFilter() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("*");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return new CorsWebFilter(source);
+    }
 
 }
