@@ -56,20 +56,6 @@ public class TransportServiceImpl implements TransportService {
     }
 
     @Override
-    public TransportDTO updateTransportDriverById(UUID id, UUID driverId) {
-        var transportOpt = transportRepo.findById(id);
-
-        if (transportOpt.isEmpty()) {
-            throw new EntityNotFoundException("Транспорт с ID " + id + " не найден.");
-        }
-
-        var transport = transportOpt.get();
-        transport.setUserId(driverId);
-        return transportMapper.entityToDTO(transportRepo.save(transport));
-    }
-
-
-    @Override
     public void deleteTransportById(UUID id) {
         var transportOpt = transportRepo.findById(id);
 
@@ -88,11 +74,18 @@ public class TransportServiceImpl implements TransportService {
             throw new RuntimeException("No transports found for provided IDs");
         }
 
-        // Устанавливаем `userId` для каждого транспорта
         transports.forEach(transport -> transport.setUserId(userId));
 
-        // Сохраняем все измененные объекты
         transportRepo.saveAll(transports);
     }
 
+    @Override
+    public List<TransportDTO> getTransportByUserId(UUID userId) {
+        var result = transportRepo.findByUserId(userId);
+        if (!result.isEmpty()) {
+            return result.stream().map(transportMapper::entityToDTO).collect(Collectors.toList());
+        }else {
+            throw new IllegalArgumentException("Пользователь с id : " + userId + " не связан ни с одним т/c.");
+        }
+    }
 }

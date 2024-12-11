@@ -2,6 +2,7 @@ package com.glebushnik.user_service.controller;
 
 import com.glebushnik.user_service.domain.dto.user.UserRequestDTO;
 import com.glebushnik.user_service.domain.dto.user.UserResponseDTO.UserResponseDTO;
+import com.glebushnik.user_service.domain.dto.user.UserTransportAssignmentRequest;
 import com.glebushnik.user_service.service.auth.JwtService;
 import com.glebushnik.user_service.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -118,20 +120,41 @@ public class UserController {
         }
     }
 
-    @PostMapping("/{userId}/add-car")
+    @PostMapping("/add-car")
     @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(
             summary = "Связать пользователя с транспортом.",
             description = "Получаем сообщение успеха.",
             tags = { "admin", "users", "put"})
     @ApiResponses({
-            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = String.class), mediaType = "application/json") }),
-            @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }),
-            @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
-    public ResponseEntity<?> addTransportToUser(@PathVariable UUID userId, @RequestBody Map<String, Object> transportAssignment) {
+            @ApiResponse(
+                    responseCode = "200",
+                    content = { @Content(schema = @Schema(implementation = String.class), mediaType = "application/json") }
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Пользователь или транспорт не найден",
+                    content = { @Content(schema = @Schema()) }
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Внутренняя ошибка сервера",
+                    content = { @Content(schema = @Schema()) }
+            )
+    })
+    public ResponseEntity<?> addTransportToUser(
+            @RequestBody @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Данные для связывания пользователя с транспортом",
+                    required = true
+            ) UserTransportAssignmentRequest request
+    )  {
         try {
+            Map<String, Object> transportAssignment = new HashMap<>();
+            var userId = request.getUserId();
+            transportAssignment.put("userId", request.getUserId());
+            transportAssignment.put("transportIds", request.getTransportIds());
             userService.addTransportToUser(userId, transportAssignment);
-            return ResponseEntity.ok().body("User: " + userId + " assigned to transport: " + transportAssignment.get("transportIds"));
+            return ResponseEntity.ok().body("Пользователь: " + userId + " связан с транспортом: " + transportAssignment.get("transportIds"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

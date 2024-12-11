@@ -60,12 +60,9 @@ public class UserService {
         var user = userRepo.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException(String.format("Пользователь с id: %s не найден", userId)));
 
-        // Убедимся, что Map содержит необходимые ключи
         if (!transportAssignment.containsKey("userId") || !transportAssignment.containsKey("transportIds")) {
             throw new IllegalArgumentException("Переданы некорректные данные для назначения транспорта.");
         }
-
-        // Формируем сообщение для Kafka
         userTransportProducer.sendAssignment("user-transport-assignment-topic", transportAssignment);
     }
 
