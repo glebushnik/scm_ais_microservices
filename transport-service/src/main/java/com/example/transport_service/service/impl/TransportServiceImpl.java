@@ -32,7 +32,7 @@ public class TransportServiceImpl implements TransportService {
         }
 
         Transport transport = Transport.builder()
-                .driverId(transportDTO.driverId())
+                .userId(transportDTO.driverId())
                 .transportTypeId(transportType)
                 .regNumber(transportDTO.regNumber())
                 .volume(transportDTO.volume())
@@ -56,20 +56,6 @@ public class TransportServiceImpl implements TransportService {
     }
 
     @Override
-    public TransportDTO updateTransportDriverById(UUID id, UUID driverId) {
-        var transportOpt = transportRepo.findById(id);
-
-        if (transportOpt.isEmpty()) {
-            throw new EntityNotFoundException("Транспорт с ID " + id + " не найден.");
-        }
-
-        var transport = transportOpt.get();
-        transport.setDriverId(driverId);
-        return transportMapper.entityToDTO(transportRepo.save(transport));
-    }
-
-
-    @Override
     public void deleteTransportById(UUID id) {
         var transportOpt = transportRepo.findById(id);
 
@@ -78,5 +64,28 @@ public class TransportServiceImpl implements TransportService {
         }
 
         transportRepo.deleteById(id);
+    }
+
+    @Override
+    public void assignUserToTransport(List<UUID> transportIds, UUID userId) {
+        List<Transport> transports = transportRepo.findAllById(transportIds);
+
+        if (transports.isEmpty()) {
+            throw new RuntimeException("No transports found for provided IDs");
+        }
+
+        transports.forEach(transport -> transport.setUserId(userId));
+
+        transportRepo.saveAll(transports);
+    }
+
+    @Override
+    public List<TransportDTO> getTransportByUserId(UUID userId) {
+        var result = transportRepo.findByUserId(userId);
+        if (!result.isEmpty()) {
+            return result.stream().map(transportMapper::entityToDTO).collect(Collectors.toList());
+        }else {
+            throw new IllegalArgumentException("Пользователь с id : " + userId + " не связан ни с одним т/c.");
+        }
     }
 }

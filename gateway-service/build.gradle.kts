@@ -23,18 +23,16 @@ extra["springCloudVersion"] = "2024.0.0-RC1"
 dependencies {
 	implementation("org.springframework.cloud:spring-cloud-starter-gateway")
 	implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.6.0")
-	implementation("org.springframework.boot:spring-boot-starter-webflux:3.4.0")
+	implementation("org.springframework.boot:spring-boot-starter-webflux") // WebFlux support
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 	implementation("org.projectlombok:lombok:1.18.28")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
-	implementation ("jakarta.servlet:jakarta.servlet-api:6.0.0")
-	implementation("org.springframework.security:spring-security-core:6.4.1")
-	implementation("org.springframework:spring-webmvc:5.3.20")
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
+	implementation("jakarta.servlet:jakarta.servlet-api:6.0.0")
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 dependencyManagement {

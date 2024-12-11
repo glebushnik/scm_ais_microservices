@@ -13,6 +13,8 @@ public interface TransportService {
     Transport createTransport(ClientTransportDTO transportDTO);
     TransportDTO getTransportById(UUID id);
     List<TransportDTO> getAllTransport();
-    TransportDTO updateTransportDriverById(UUID id, UUID driverId);
     void deleteTransportById(UUID id);
+    void assignUserToTransport(List<UUID> transportId, UUID userId);
+
+    List<TransportDTO> getTransportByUserId(UUID userId);
 }

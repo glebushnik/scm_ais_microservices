@@ -42,8 +42,7 @@ dependencies {
 	implementation("org.springframework.data:spring-data-jdbc:3.3.5")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
-	implementation(kotlin("stdlib-jdk8"))
-
+	implementation ("org.springframework.kafka:spring-kafka")
 }
 
 dependencyManagement {

@@ -28,6 +28,6 @@ public class Transport {
 
     private String volume;
 
-    @Column(name = "driver_id", nullable = false)
-    private UUID driverId;
+    @Column(name = "user_id", nullable = false)
+    private UUID userId;
 }

@@ -43,13 +43,11 @@ dependencies {
 	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
-// https://mvnrepository.com/artifact/org.springframework.security/spring-security-core
 	implementation("org.springframework.security:spring-security-core:6.4.1")
-// https://mvnrepository.com/artifact/org.springframework.security/spring-security-core
-	implementation("org.springframework.security:spring-security-core:6.4.1")
-
+	implementation ("org.springframework.kafka:spring-kafka")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
 	implementation("org.springframework.boot:spring-boot-starter-validation:3.3.5")
+	implementation("com.fasterxml.jackson.core:jackson-core:2.18.2")
 }
 
 dependencyManagement {
