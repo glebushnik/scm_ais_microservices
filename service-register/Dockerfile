@@ -1,15 +1,11 @@
-FROM debian
-# Используем образ OpenJDK на базе Debian для совместимости с ARM
-FROM openjdk:17-jdk-slim
+FROM openjdk:17-jdk-slim AS builder
 
-# Информация об авторе
-LABEL authors="glebushnik"
+WORKDIR /build
+COPY . .
+RUN ./gradlew clean build -x test
+FROM openjdk:17-jdk-slim AS runner
 
-# Устанавливаем рабочую директорию
 WORKDIR /app
+COPY --from=builder /build/build/libs/service-register-0.0.1-SNAPSHOT.jar app.jar
 
-# Копируем JAR-файл
-COPY build/libs/*.jar app.jar
-
-# Указываем команду запуска
 ENTRYPOINT ["java", "-jar", "app.jar"]
