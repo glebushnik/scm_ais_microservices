@@ -10,13 +10,22 @@ spring:
         corsConfigurations:
           '[/**]':
             allowedOrigins: "*"
-            allowedHeaders: "*"
+            allowedHeaders:
+              - Access-Control-Allow-Headers
+              - Access-Control-Allow-Origin
+              - Access-Control-Allow-Methods
+              - Access-Control-Max-Age
+              - Access-Control-Allow-Headers
+              - Access-Control-Request-Method
+              - Access-Control-Request-Headers
+              - Origin
             allowedMethods:
               - GET
               - POST
               - PUT
               - OPTIONS
               - DELETE
+              - PATCH
       routes:
         - id: user-service
           uri: lb://USER-SERVICE
