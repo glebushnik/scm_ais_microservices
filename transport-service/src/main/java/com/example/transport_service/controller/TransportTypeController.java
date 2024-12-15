@@ -1,5 +1,6 @@
 package com.example.transport_service.controller;
 
+import com.example.transport_service.domain.DTO.TransportTypeDTO;
 import com.example.transport_service.domain.entity.TransportType;
 import com.example.transport_service.service.TransportTypeService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,7 +33,7 @@ public class TransportTypeController {
             @ApiResponse(responseCode = "400", description = "Некорректные данные запроса.", content = @Content),
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера.", content = @Content)
     })
-    public ResponseEntity<?> createTransportType(@RequestBody TransportType transportType) {
+    public ResponseEntity<?> createTransportType(@RequestBody TransportTypeDTO transportType) {
         try {
             return ResponseEntity.ok().body(
                     transportTypeService.createTransportType(transportType)

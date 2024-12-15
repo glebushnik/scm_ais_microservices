@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Service
 public interface TransportTypeService {
-    public TransportType createTransportType(TransportType transportType);
+    public TransportType createTransportType(TransportTypeDTO transportType);
     public void deleteTransportType(UUID transportTypeId);
     public List<TransportTypeDTO> getAllTransportTypes();
 }
