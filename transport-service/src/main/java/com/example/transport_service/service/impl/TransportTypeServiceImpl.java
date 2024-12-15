@@ -5,6 +5,7 @@ import com.example.transport_service.domain.entity.TransportType;
 import com.example.transport_service.domain.mapper.TransportMapper;
 import com.example.transport_service.repo.TransportTypeRepo;
 import com.example.transport_service.service.TransportTypeService;
+import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +19,15 @@ public class TransportTypeServiceImpl implements TransportTypeService {
     private final TransportTypeRepo transportTypeRepo;
     private final TransportMapper transportMapper;
     @Override
-    public TransportType createTransportType(TransportType transportType) {
-        if (transportTypeRepo.findTransportTypeByName(transportType.getName()).isEmpty()) {
-            throw new IllegalArgumentException("Тип транспорта с именем " + transportType.getName() + " уже существует.");
+    public TransportType createTransportType(TransportTypeDTO transportType) {
+        if (transportTypeRepo.existsByName(transportType.name())) {
+            throw new IllegalArgumentException("Тип транспорта с именем " + transportType.name() + " уже существует.");
         }
-        return transportTypeRepo.save(transportType);
+        return transportTypeRepo.save(
+                TransportType.builder()
+                        .name(transportType.name())
+                        .build()
+        );
     }
     @Override
     public void deleteTransportType(UUID transportTypeId) {

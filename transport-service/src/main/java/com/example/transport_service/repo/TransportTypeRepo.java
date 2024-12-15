@@ -8,5 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 @Repository
 public interface TransportTypeRepo extends JpaRepository<TransportType, UUID> {
-    Optional<TransportType> findTransportTypeByName(String name);
+    TransportType findTransportTypeByName(String name);
+    Boolean existsByName(String name);
 }
+
