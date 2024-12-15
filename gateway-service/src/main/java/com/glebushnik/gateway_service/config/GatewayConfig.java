@@ -9,8 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
-import org.springframework.web.reactive.config.CorsRegistry;
-import org.springframework.web.reactive.config.WebFluxConfigurer;
+import java.util.List;
 
 @Configuration
 public class GatewayConfig {
@@ -27,6 +26,21 @@ public class GatewayConfig {
                         .filters(f -> f.filter(filter))
                         .uri("lb://TRANSPORT-SERVICE"))
                 .build();
+    }
+
+    @Bean
+    CorsWebFilter corsWebFilter() {
+        CorsConfiguration corsConfig = new CorsConfiguration();
+        corsConfig.setAllowedOrigins(List.of("*"));
+        corsConfig.setMaxAge(8000L);
+        corsConfig.addAllowedMethod("*");
+        corsConfig.addAllowedHeader("*");
+
+        UrlBasedCorsConfigurationSource source =
+                new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", corsConfig);
+
+        return new CorsWebFilter(source);
     }
 
 }

@@ -4,19 +4,28 @@ spring:
 
   cloud:
     gateway:
-      default-filters:
-        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
-      globalcors:
-        corsConfigurations:
-          '[/**]':
-            allowedOrigins: "*"
-            allowedHeaders: "*"
-            allowedMethods:
-              - GET
-              - POST
-              - PUT
-              - OPTIONS
-              - DELETE
+#      default-filters:
+#        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+#      globalcors:
+#        corsConfigurations:
+#          '[/**]':
+#            allowedOrigins: "*"
+#            allowedHeaders:
+#              - Access-Control-Allow-Headers
+#              - Access-Control-Allow-Origin
+#              - Access-Control-Allow-Methods
+#              - Access-Control-Max-Age
+#              - Access-Control-Allow-Headers
+#              - Access-Control-Request-Method
+#              - Access-Control-Request-Headers
+#              - Origin
+#            allowedMethods:
+#              - GET
+#              - POST
+#              - PUT
+#              - OPTIONS
+#              - DELETE
+#              - PATCH
       routes:
         - id: user-service
           uri: lb://USER-SERVICE
