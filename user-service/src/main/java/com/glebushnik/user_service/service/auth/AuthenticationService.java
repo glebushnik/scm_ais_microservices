@@ -3,8 +3,9 @@ package com.glebushnik.user_service.service.auth;
 import com.glebushnik.user_service.domain.dto.auth.*;
 import com.glebushnik.user_service.domain.entity.User;
 import com.glebushnik.user_service.domain.enums.Role;
+import com.glebushnik.user_service.exception.UserNotFoundByIdException;
 import com.glebushnik.user_service.repo.UserRepo;
-import jakarta.persistence.EntityNotFoundException;
+import com.glebushnik.user_service.exception.UserNotFoundByEmailException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,23 +36,25 @@ public class AuthenticationService {
                 .build();
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request){
+    public AuthenticationResponse authenticate(AuthenticationRequest request) throws UserNotFoundByEmailException {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getPassword()
                 )
         );
-        var user = userRepo.findByEmail(request.getEmail()).orElseThrow();
+        var user = userRepo.findByEmail(request.getEmail()).orElseThrow(
+                () -> new UserNotFoundByEmailException("Пользователя с email: " + request.getEmail() + " не существует.")
+        );
 
 
         var jwtToken = jwtService.generateToken(user.getEmail());
         return  AuthenticationResponse.builder().token(jwtToken).build();
     }
 
-    public ChangePassResponse changePassword(ChangePassRequest request) throws EntityNotFoundException {
+    public ChangePassResponse changePassword(ChangePassRequest request) throws UserNotFoundByIdException {
         var user = userRepo.findById(request.getUserId()).orElseThrow(
-                ()->new IllegalArgumentException(String.format("Пользователь с id : %d не найден.", request.getUserId()))
+                ()->new UserNotFoundByIdException(String.format("Пользователь с id : %d не найден.", request.getUserId()))
         );
 
         user.setPassword(

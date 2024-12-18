@@ -1,6 +1,8 @@
 package com.example.transport_service.domain.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -24,8 +26,12 @@ public class Transport {
     @JoinColumn(name="type_id")
     private TransportType transportTypeId;
 
+    @NotBlank
+    @Size(min=4, max=20)
     private String regNumber;
 
+    @NotBlank
+    @Size(min=4, max=20)
     private String volume;
 
     @Column(name = "user_id", nullable = false)

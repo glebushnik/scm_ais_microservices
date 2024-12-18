@@ -27,5 +27,4 @@ public class RegisterRequest {
 
     @NotBlank(message = "Поле password не может быть пустым")
     private String password;
-
 }

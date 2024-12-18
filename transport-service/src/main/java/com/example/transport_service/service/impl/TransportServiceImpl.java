@@ -5,6 +5,8 @@ import com.example.transport_service.domain.DTO.ClientTransportDTO;
 import com.example.transport_service.domain.entity.Transport;
 import com.example.transport_service.domain.entity.TransportType;
 import com.example.transport_service.domain.mapper.TransportMapper;
+import com.example.transport_service.exception.TransportNotFoundByIdException;
+import com.example.transport_service.exception.UserNotFoundByIdException;
 import com.example.transport_service.repo.TransportRepo;
 import com.example.transport_service.repo.TransportTypeRepo;
 import com.example.transport_service.service.TransportService;
@@ -23,9 +25,9 @@ public class TransportServiceImpl implements TransportService {
     private final TransportTypeRepo transportTypeRepo;
     private final TransportMapper transportMapper;
     @Override
-    public Transport createTransport(ClientTransportDTO transportDTO) {
+    public Transport createTransport(ClientTransportDTO transportDTO) throws TransportNotFoundByIdException{
         TransportType transportType = transportTypeRepo.findById(transportDTO.transportType())
-                .orElseThrow(() -> new EntityNotFoundException("Тип транспорта с id " + transportDTO.transportType()+" не найден."));
+                .orElseThrow(() -> new TransportNotFoundByIdException("Тип транспорта с id " + transportDTO.transportType()+" не найден."));
 
         if (transportRepo.findByRegNumber(transportDTO.regNumber()).isPresent()) {
             throw new IllegalArgumentException("Транспорт с рег. номером " + transportDTO.regNumber() + " уже существует.");
@@ -43,9 +45,9 @@ public class TransportServiceImpl implements TransportService {
     }
 
     @Override
-    public TransportDTO getTransportById(UUID id) {
+    public TransportDTO getTransportById(UUID id) throws TransportNotFoundByIdException{
         return transportRepo.findById(id).map(transportMapper::entityToDTO)
-                .orElseThrow(() -> new EntityNotFoundException("Транспорт с ID " + id + " не найден."));
+                .orElseThrow(() -> new TransportNotFoundByIdException("Транспорт с ID " + id + " не найден."));
     }
 
     @Override
@@ -56,7 +58,7 @@ public class TransportServiceImpl implements TransportService {
     }
 
     @Override
-    public void deleteTransportById(UUID id) {
+    public void deleteTransportById(UUID id) throws TransportNotFoundByIdException{
         var transportOpt = transportRepo.findById(id);
 
         if (transportOpt.isEmpty()) {
@@ -80,12 +82,12 @@ public class TransportServiceImpl implements TransportService {
     }
 
     @Override
-    public List<TransportDTO> getTransportByUserId(UUID userId) {
+    public List<TransportDTO> getTransportByUserId(UUID userId) throws UserNotFoundByIdException{
         var result = transportRepo.findByUserId(userId);
         if (!result.isEmpty()) {
             return result.stream().map(transportMapper::entityToDTO).collect(Collectors.toList());
         }else {
-            throw new IllegalArgumentException("Пользователь с id : " + userId + " не связан ни с одним т/c.");
+            throw new UserNotFoundByIdException("Пользователь с id : " + userId + " не связан ни с одним т/c.");
         }
     }
 }
