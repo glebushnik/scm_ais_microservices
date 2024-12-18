@@ -3,6 +3,7 @@ package com.glebushnik.user_service.service.user;
 import com.glebushnik.user_service.domain.dto.user.UserRequestDTO;
 import com.glebushnik.user_service.domain.dto.user.UserResponseDTO.UserResponseDTO;
 import com.glebushnik.user_service.domain.mapper.UserMapper;
+import com.glebushnik.user_service.exception.UserNotFoundByIdException;
 import com.glebushnik.user_service.kafka.producers.UserTransportProducer;
 import com.glebushnik.user_service.repo.RefreshTokenRepo;
 import com.glebushnik.user_service.repo.UserRepo;
@@ -27,16 +28,16 @@ public class UserService {
     }
 
 
-    public UserResponseDTO getUserById(UUID userId) {
+    public UserResponseDTO getUserById(UUID userId) throws UserNotFoundByIdException {
         return userMapper.eToDTO(userRepo.findById(userId).orElseThrow(()
-                -> new EntityNotFoundException(String.format("Пользователь с id : %d не найден",userId))));
+                -> new UserNotFoundByIdException(String.format("Пользователь с id : %d не найден",userId))));
 
     }
 
 
-    public UserResponseDTO updateUserById(UUID userId, UserRequestDTO requestDTO) {
+    public UserResponseDTO updateUserById(UUID userId, UserRequestDTO requestDTO) throws UserNotFoundByIdException {
         var user = userRepo.findById(userId).orElseThrow(
-                () -> new EntityNotFoundException(String.format("Пользователь с id : %d не найден", userId))
+                () -> new UserNotFoundByIdException(String.format("Пользователь с id : %d не найден", userId))
         );
 
         userMapper.mapUserEntityWithRequestDTO(user, requestDTO);
@@ -45,8 +46,8 @@ public class UserService {
     }
 
 
-    public void deleteUserById(UUID userId) {
-        var user = userRepo.findById(userId).orElseThrow(() -> new EntityNotFoundException(String.format("Пользователь с id : %d не найден", userId)));
+    public void deleteUserById(UUID userId) throws UserNotFoundByIdException{
+        var user = userRepo.findById(userId).orElseThrow(() -> new UserNotFoundByIdException(String.format("Пользователь с id : %d не найден", userId)));
         var refresh = user.getRefreshToken();
         refreshTokenRepo.delete(refresh);
         userRepo.delete(user);
@@ -56,9 +57,9 @@ public class UserService {
         return userMapper.eToDTO(userRepo.findByEmail(userNameFromAccess).get());
     }
 
-    public void addTransportToUser(UUID userId, Map<String, Object> transportAssignment) {
+    public void addTransportToUser(UUID userId, Map<String, Object> transportAssignment) throws UserNotFoundByIdException {
         var user = userRepo.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException(String.format("Пользователь с id: %s не найден", userId)));
+                .orElseThrow(() -> new UserNotFoundByIdException(String.format("Пользователь с id: %s не найден", userId)));
 
         if (!transportAssignment.containsKey("userId") || !transportAssignment.containsKey("transportIds")) {
             throw new IllegalArgumentException("Переданы некорректные данные для назначения транспорта.");

@@ -1,7 +1,11 @@
 package com.glebushnik.user_service.domain.entity;
 
 import com.glebushnik.user_service.domain.enums.Role;
+import com.glebushnik.user_service.validation.StrongPassword;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,14 +26,24 @@ public class User implements UserDetails {
     @GeneratedValue
     private UUID id;
 
+    @NotBlank
+    @Size(min=4, max=20)
     private String firstName;
 
+    @NotBlank
+    @Size(min=4, max=20)
     private String lastName;
 
+    @Email
     private String email;
 
+    @NotBlank
+    @Size(min=8, max=20)
+    @StrongPassword
     private String password;
 
+    @NotBlank
+    @Size(min=4, max=20)
     private String patronymic;
 
     @OneToOne(mappedBy = "user")
