@@ -26,24 +26,14 @@ public class User implements UserDetails {
     @GeneratedValue
     private UUID id;
 
-    @NotBlank
-    @Size(min=4, max=20)
     private String firstName;
 
-    @NotBlank
-    @Size(min=4, max=20)
     private String lastName;
 
-    @Email
     private String email;
 
-    @NotBlank
-    @Size(min=8, max=20)
-    @StrongPassword
     private String password;
 
-    @NotBlank
-    @Size(min=4, max=20)
     private String patronymic;
 
     @OneToOne(mappedBy = "user")

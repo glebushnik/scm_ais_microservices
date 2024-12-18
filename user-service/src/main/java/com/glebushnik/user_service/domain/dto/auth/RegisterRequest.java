@@ -1,7 +1,9 @@
 package com.glebushnik.user_service.domain.dto.auth;
 
+import com.glebushnik.user_service.validation.StrongPassword;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,5 +28,7 @@ public class RegisterRequest {
     private String email;
 
     @NotBlank(message = "Поле password не может быть пустым")
+    @Size(min=8, max=20)
+    @StrongPassword
     private String password;
 }
