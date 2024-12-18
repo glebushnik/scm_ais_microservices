@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ public class TransportController {
             @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = String.class), mediaType = "application/json") }),
             @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema()) }),
             @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
-    ResponseEntity<?> createCar(@RequestBody ClientTransportDTO carDTO) {
+    ResponseEntity<?> createCar(@Valid @RequestBody ClientTransportDTO carDTO) {
         try {
             var res = transportService.createTransport(carDTO);
             return ResponseEntity.ok().body(String.format("Транспорт с id : %s создан", res.getId()));
