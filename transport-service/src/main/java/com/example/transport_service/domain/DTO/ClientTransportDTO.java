@@ -8,8 +8,6 @@ import org.springframework.validation.annotation.Validated;
 import java.util.UUID;
 
 public record ClientTransportDTO(
-        @NotBlank
-        UUID driverId,
         UUID transportType,
         @NotBlank
         @Size(min = 6, max = 8)

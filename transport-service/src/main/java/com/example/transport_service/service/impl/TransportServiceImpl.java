@@ -34,7 +34,6 @@ public class TransportServiceImpl implements TransportService {
         }
 
         Transport transport = Transport.builder()
-                .userId(transportDTO.driverId())
                 .transportTypeId(transportType)
                 .regNumber(transportDTO.regNumber())
                 .volume(transportDTO.volume())
