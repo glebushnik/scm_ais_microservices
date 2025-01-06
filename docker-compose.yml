@@ -55,8 +55,12 @@ services:
     container_name: warehouse_service
     depends_on:
       - postgres
+      - service-register
     environment:
       SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/warehouse
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-register:8761/eureka/
     ports:
       - "8084:8084"
