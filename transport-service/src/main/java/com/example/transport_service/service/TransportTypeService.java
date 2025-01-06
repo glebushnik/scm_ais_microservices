@@ -1,6 +1,7 @@
 package com.example.transport_service.service;
 
 import com.example.transport_service.domain.DTO.TransportTypeDTO;
+import com.example.transport_service.domain.DTO.TransportTypeResponseDTO;
 import com.example.transport_service.domain.entity.TransportType;
 import org.springframework.stereotype.Service;
 
@@ -11,5 +12,5 @@ import java.util.UUID;
 public interface TransportTypeService {
     public TransportType createTransportType(TransportTypeDTO transportType);
     public void deleteTransportType(UUID transportTypeId);
-    public List<TransportTypeDTO> getAllTransportTypes();
+    public List<TransportTypeResponseDTO> getAllTransportTypes();
 }

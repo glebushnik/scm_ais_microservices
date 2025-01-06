@@ -2,6 +2,7 @@ package com.example.transport_service.service.impl;
 
 import com.example.transport_service.domain.DTO.TransportDTO;
 import com.example.transport_service.domain.DTO.ClientTransportDTO;
+import com.example.transport_service.domain.DTO.TransportResponseDTO;
 import com.example.transport_service.domain.entity.Transport;
 import com.example.transport_service.domain.entity.TransportType;
 import com.example.transport_service.domain.mapper.TransportMapper;
@@ -50,9 +51,9 @@ public class TransportServiceImpl implements TransportService {
     }
 
     @Override
-    public List<TransportDTO> getAllTransport() {
+    public List<TransportResponseDTO> getAllTransport() {
         return transportRepo.findAll().stream().map(
-            transportMapper::entityToDTO
+            transportMapper::entityToResponseDTO
         ).collect(Collectors.toList());
     }
 

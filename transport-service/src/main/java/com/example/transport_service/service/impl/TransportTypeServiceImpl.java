@@ -1,6 +1,7 @@
 package com.example.transport_service.service.impl;
 
 import com.example.transport_service.domain.DTO.TransportTypeDTO;
+import com.example.transport_service.domain.DTO.TransportTypeResponseDTO;
 import com.example.transport_service.domain.entity.TransportType;
 import com.example.transport_service.domain.mapper.TransportMapper;
 import com.example.transport_service.repo.TransportTypeRepo;
@@ -38,7 +39,7 @@ public class TransportTypeServiceImpl implements TransportTypeService {
         transportTypeRepo.deleteById(transportTypeId);
     }
     @Override
-    public List<TransportTypeDTO> getAllTransportTypes() {
-        return transportTypeRepo.findAll().stream().map(transportMapper::entityToDTO).collect(Collectors.toList());
+    public List<TransportTypeResponseDTO> getAllTransportTypes() {
+        return transportTypeRepo.findAll().stream().map(transportMapper::entityToResponseDTO).collect(Collectors.toList());
     }
 }
