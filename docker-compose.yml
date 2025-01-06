@@ -48,6 +48,18 @@ services:
     ports:
       - "8080:8080"
 
+  warehouse-service:
+    build:
+      context: ./warehouse-service
+    container_name: warehouse_service
+    depends_on:
+      - postgres
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-register:8761/eureka/
+    ports:
+      - "8084:8084"
+
   transport-service:
     build:
       context: ./transport-service
