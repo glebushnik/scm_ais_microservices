@@ -31,4 +31,10 @@ public class GlobalExceptionHandler {
     public String handleUserNotFoundByIdException(UserNotFoundByIdException ex) {
         return ex.getMessage();
     }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(TransportNotFoundByIdException.class)
+    public String handleTransportNotFoundByIdException(TransportNotFoundByIdException ex) {
+        return ex.getMessage();
+    }
 }

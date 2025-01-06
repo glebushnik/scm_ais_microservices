@@ -62,7 +62,7 @@ public class TransportServiceImpl implements TransportService {
         var transportOpt = transportRepo.findById(id);
 
         if (transportOpt.isEmpty()) {
-            throw new EntityNotFoundException("Транспорт с ID " + id + " не найден.");
+            throw new TransportNotFoundByIdException("Транспорт с ID " + id + " не найден.");
         }
 
         transportRepo.deleteById(id);
