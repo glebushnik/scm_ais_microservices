@@ -18,7 +18,6 @@ public class TransportMapper {
 
     public TransportTypeDTO entityToDTO(TransportType transportType) {
         return new TransportTypeDTO(
-                transportType.getId(),
                 transportType.getName()
                 );
     }
