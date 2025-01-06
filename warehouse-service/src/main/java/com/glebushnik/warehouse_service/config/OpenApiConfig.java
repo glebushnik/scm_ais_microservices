@@ -23,7 +23,7 @@ import org.springframework.context.annotation.Configuration;
                 description = "Warehouse service"
         ),
         servers = {
-                @Server(url = "http://gateway-service:8080", description = "Gateway Server"),
+                @Server(url = "http://195.133.25.86:8080", description = "Gateway Server"),
         }
 )
 @SecurityScheme(
