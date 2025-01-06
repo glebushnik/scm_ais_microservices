@@ -34,6 +34,6 @@ public class Transport {
     @Size(min=4, max=20)
     private String volume;
 
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "user_id")
     private UUID userId;
 }
