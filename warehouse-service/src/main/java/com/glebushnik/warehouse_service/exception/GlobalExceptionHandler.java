@@ -1,5 +1,6 @@
-package com.example.transport_service.exception;
+package com.glebushnik.warehouse_service.exception;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -27,14 +28,14 @@ public class GlobalExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(UserNotFoundByIdException.class)
-    public String handleUserNotFoundByIdException(UserNotFoundByIdException ex) {
+    @ExceptionHandler(WarehouseNotFoundByIdException.class)
+    public String handleWarehouseNotFoundByIdException(WarehouseNotFoundByIdException ex) {
         return ex.getMessage();
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(TransportNotFoundByIdException.class)
-    public String handleTransportNotFoundByIdException(TransportNotFoundByIdException ex) {
+    @ExceptionHandler(ItemNotFoundByIdException.class)
+    public String handleItemNotFoundByIdException(ItemNotFoundByIdException ex) {
         return ex.getMessage();
     }
 }
