@@ -6,6 +6,6 @@ RUN ./gradlew clean build -x test
 FROM openjdk:17-jdk-slim AS runner
 
 WORKDIR /app
-COPY --from=builder /build/build/libs/user-service-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=builder /build/build/libs/warehouse-service-0.0.1-SNAPSHOT.jar app.jar
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
