@@ -4,28 +4,6 @@ spring:
 
   cloud:
     gateway:
-#      default-filters:
-#        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
-#      globalcors:
-#        corsConfigurations:
-#          '[/**]':
-#            allowedOrigins: "*"
-#            allowedHeaders:
-#              - Access-Control-Allow-Headers
-#              - Access-Control-Allow-Origin
-#              - Access-Control-Allow-Methods
-#              - Access-Control-Max-Age
-#              - Access-Control-Allow-Headers
-#              - Access-Control-Request-Method
-#              - Access-Control-Request-Headers
-#              - Origin
-#            allowedMethods:
-#              - GET
-#              - POST
-#              - PUT
-#              - OPTIONS
-#              - DELETE
-#              - PATCH
       routes:
         - id: user-service
           uri: lb://USER-SERVICE
@@ -34,7 +12,11 @@ spring:
         - id: transport-service
           uri: lb://TRANSPORT-SERVICE
           predicates:
-            - Path=/api/v1/transport/**,/api/v1/transport-types/**
+            - Path=/api/v1/transport/**, /api/v1/transport-types/**
+        - id: warehouse-service
+          uri: lb://WAREHOUSE-SERVICE
+          predicates:
+            - Path=/api/v1/warehouse/**
 
 
 springdoc:
@@ -49,6 +31,8 @@ springdoc:
         url: /api/v1/auth/v3/api-docs
       - name: transport-service
         url: /api/v1/transport/v3/api-docs
+      - name: warehouse-service
+        url: /api/v1/warehouse/v3/api-docs
 
 eureka:
   client:

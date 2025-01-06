@@ -25,6 +25,9 @@ public class GatewayConfig {
                 .route("secured_routes", r -> r.path("/api/v1/transport/**")
                         .filters(f -> f.filter(filter))
                         .uri("lb://TRANSPORT-SERVICE"))
+                .route("secured_routes", r -> r.path("/api/v1/warehouse/**")
+                        .filters(f -> f.filter(filter))
+                        .uri("lb://WAREHOUSE-SERVICE"))
                 .build();
     }
 
