@@ -1,6 +1,7 @@
 package com.example.transport_service.repo;
 
 import com.example.transport_service.domain.entity.Transport;
+import com.example.transport_service.domain.entity.TransportType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -13,6 +14,6 @@ import java.util.UUID;
 @Repository
 public interface TransportRepo extends JpaRepository<Transport, UUID> {
     Optional<Transport> findByRegNumber(String regNumber);
-
+    Boolean existsByTransportTypeId(TransportType transportTypeId);
     List<Transport> findByUserId(UUID userId);
 }

@@ -12,9 +12,10 @@ import org.springframework.stereotype.Service;
 public class TransportMapper {
     public TransportDTO entityToDTO(Transport transport) {
         return new TransportDTO(
+                transport.getId(),
                 transport.getVolume(),
                 transport.getRegNumber(),
-                transport.getTransportTypeId().getName()
+                transport.getTransportTypeId()!=null ? transport.getTransportTypeId().getName() : "null"
         );
     }
 
@@ -36,7 +37,7 @@ public class TransportMapper {
                 transport.getId(),
                 transport.getVolume(),
                 transport.getRegNumber(),
-                transport.getTransportTypeId().getName()
+                transport.getTransportTypeId()!=null ? transport.getTransportTypeId().getName() : "null"
         );
     }
 }
