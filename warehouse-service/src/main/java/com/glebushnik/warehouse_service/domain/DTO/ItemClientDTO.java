@@ -12,9 +12,7 @@ public record ItemClientDTO(
         @NotBlank
         @Size(min = 6, max = 8)
         String volume,
-        @NotBlank
         Integer quantity,
-        @NotBlank
         Boolean isFragile,
         UUID warehouseId
 ) {

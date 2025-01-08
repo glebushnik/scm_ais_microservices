@@ -8,7 +8,11 @@ import java.util.UUID;
 public record WarehouseClientDTO(
         UUID companyId,
 
+        @NotBlank
+        @Size(min = 5)
         String warehouseName,
+        @NotBlank
+        String coords,
         @NotBlank
         @Size(min = 10)
         String address

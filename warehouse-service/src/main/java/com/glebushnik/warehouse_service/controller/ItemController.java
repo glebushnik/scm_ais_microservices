@@ -1,6 +1,7 @@
 package com.glebushnik.warehouse_service.controller;
 
 import com.glebushnik.warehouse_service.domain.DTO.ItemClientDTO;
+import com.glebushnik.warehouse_service.domain.DTO.ItemResponseDTO;
 import com.glebushnik.warehouse_service.domain.DTO.UpdateItemDTO;
 import com.glebushnik.warehouse_service.domain.entity.Item;
 import com.glebushnik.warehouse_service.exception.ItemNotFoundByIdException;
@@ -33,7 +34,7 @@ public class ItemController {
             tags = { "item", "create", "post" }
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Товар успешно создан.", content = { @Content(schema = @Schema(implementation = Item.class), mediaType = "application/json") }),
+            @ApiResponse(responseCode = "200", description = "Товар успешно создан.", content = { @Content(schema = @Schema(implementation = ItemResponseDTO.class), mediaType = "application/json") }),
             @ApiResponse(responseCode = "400", description = "Некорректные данные или склад не найден.", content = { @Content(schema = @Schema()) }),
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера.", content = { @Content(schema = @Schema()) })
     })

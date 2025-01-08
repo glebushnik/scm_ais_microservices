@@ -9,6 +9,7 @@ import java.util.UUID;
 
 @Data
 @Builder
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -26,10 +27,8 @@ public class Item {
     @Size(min = 6, max = 8)
     private String volume;
 
-    @NotBlank
     private Integer quantity;
 
-    @NotBlank
     private Boolean isFragile;
 
     @ManyToOne

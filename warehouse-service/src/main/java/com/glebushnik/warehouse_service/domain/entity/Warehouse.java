@@ -19,9 +19,13 @@ public class Warehouse {
     @Id
     private UUID id;
 
+    @NotBlank
+    @Size(min = 5)
     private String warehouseName;
 
     private UUID companyId;
+
+    private String coords;
 
     @NotBlank
     @Size(min = 10)

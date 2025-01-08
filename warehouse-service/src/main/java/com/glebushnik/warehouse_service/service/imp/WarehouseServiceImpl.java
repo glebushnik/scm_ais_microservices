@@ -4,6 +4,7 @@ package com.glebushnik.warehouse_service.service.imp;
 import com.glebushnik.warehouse_service.domain.DTO.ItemClientDTO;
 import com.glebushnik.warehouse_service.domain.DTO.WarehouseClientDTO;
 import com.glebushnik.warehouse_service.domain.DTO.WarehouseItemAssignmentDTO;
+import com.glebushnik.warehouse_service.domain.DTO.WarehouseResponseDTO;
 import com.glebushnik.warehouse_service.domain.entity.Item;
 import com.glebushnik.warehouse_service.domain.entity.Warehouse;
 import com.glebushnik.warehouse_service.domain.mapper.ItemMapper;
@@ -28,14 +29,16 @@ public class WarehouseServiceImpl implements WarehouseService {
     private final WarehouseMapper warehouseMapper;
     private final ItemMapper itemMapper;
     @Override
-    public Warehouse createWarehouse(WarehouseClientDTO warehouseClientDTO) {
-        return warehouseRepo.save(
+    public WarehouseResponseDTO createWarehouse(WarehouseClientDTO warehouseClientDTO) {
+        Warehouse warehouse = warehouseRepo.save(
                 Warehouse.builder()
                         .address(warehouseClientDTO.address())
                         .warehouseName(warehouseClientDTO.warehouseName())
-
+                        .coords(warehouseClientDTO.coords())
+                        .companyId(warehouseClientDTO.companyId())
                         .build()
         );
+        return warehouseMapper.entityToDto(warehouse);
     }
 
     @Override
@@ -48,17 +51,18 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
-    public Warehouse updateWarehouseById(WarehouseClientDTO newWarehouse, UUID warehouseId) throws WarehouseNotFoundByIdException {
+    public WarehouseResponseDTO updateWarehouseById(WarehouseClientDTO newWarehouse, UUID warehouseId) throws WarehouseNotFoundByIdException {
         Warehouse oldWarehouse = warehouseRepo.findById(warehouseId).orElseThrow(
                 () -> new WarehouseNotFoundByIdException("Склад с id: " + warehouseId + " не найден.")
         );
-        return warehouseRepo.save(warehouseMapper.mapWarehouse(oldWarehouse, newWarehouse));
+        return warehouseMapper.entityToDto(warehouseRepo.save(warehouseMapper.mapWarehouse(oldWarehouse, newWarehouse)));
     }
 
     @Override
-    public Warehouse getWarehouseById(UUID warehouseId) throws WarehouseNotFoundByIdException {
-        return warehouseRepo.findById(warehouseId).orElseThrow(
-                () -> new WarehouseNotFoundByIdException("Склад с id: " + warehouseId + " не найден."));
+    public WarehouseResponseDTO getWarehouseById(UUID warehouseId) throws WarehouseNotFoundByIdException {
+        return warehouseMapper.entityToDto(warehouseRepo.findById(warehouseId).orElseThrow(
+                () -> new WarehouseNotFoundByIdException("Склад с id: " + warehouseId + " не найден."))
+        );
     }
 
     @Override
@@ -69,8 +73,8 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
-    public List<Warehouse> getAllWarehouses() {
-        return warehouseRepo.findAll();
+    public List<WarehouseResponseDTO> getAllWarehouses() {
+        return warehouseRepo.findAll().stream().map(warehouseMapper::entityToDto).collect(Collectors.toList());
     }
 
     @Override

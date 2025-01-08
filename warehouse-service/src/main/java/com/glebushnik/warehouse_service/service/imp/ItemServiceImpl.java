@@ -1,6 +1,7 @@
 package com.glebushnik.warehouse_service.service.imp;
 
 import com.glebushnik.warehouse_service.domain.DTO.ItemClientDTO;
+import com.glebushnik.warehouse_service.domain.DTO.ItemResponseDTO;
 import com.glebushnik.warehouse_service.domain.DTO.UpdateItemDTO;
 import com.glebushnik.warehouse_service.domain.entity.Item;
 import com.glebushnik.warehouse_service.domain.entity.Warehouse;
@@ -22,12 +23,12 @@ public class ItemServiceImpl implements ItemService {
     private final WarehouseRepo warehouseRepo;
     private final ItemMapper itemMapper;
     @Override
-    public Item createItem(ItemClientDTO itemClientDTO) throws WarehouseNotFoundByIdException {
+    public ItemResponseDTO createItem(ItemClientDTO itemClientDTO) throws WarehouseNotFoundByIdException {
         Warehouse warehouse = warehouseRepo.findById(itemClientDTO.warehouseId())
                 .orElseThrow(()->new WarehouseNotFoundByIdException("Склад с id: " + itemClientDTO.warehouseId() + " не найден."));
 
 
-        return itemRepo.save(
+        Item item = itemRepo.save(
                 Item.builder()
                         .warehouse(warehouse)
                         .volume(itemClientDTO.volume())
@@ -35,6 +36,14 @@ public class ItemServiceImpl implements ItemService {
                         .quantity(itemClientDTO.quantity())
                         .isFragile(itemClientDTO.isFragile())
                         .build()
+        );
+        return new ItemResponseDTO(
+                item.getId(),
+                item.getName(),
+                item.getVolume(),
+                item.getQuantity(),
+                item.getIsFragile(),
+                item.getWarehouse().getId()
         );
     }
 
