@@ -19,7 +19,7 @@ import reactor.core.publisher.Mono;
 public class AuthenticationFilter implements GatewayFilter {
 
     @Autowired
-    private RouterValidator routerValidator; // custom route validator
+    private RouterValidator routerValidator;
     @Autowired
     private JwtUtil jwtUtil;
 
@@ -27,22 +27,22 @@ public class AuthenticationFilter implements GatewayFilter {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
 
-        // Проверка, требует ли маршрут аутентификацию
+
         if (routerValidator.isSecured.test(request)) {
 
-            // Проверка, присутствует ли заголовок Authorization
+
             if (this.isAuthMissing(request)) {
                 return this.onError(exchange, "Authorization header is missing in request", HttpStatus.UNAUTHORIZED);
             }
 
             final String token = this.getAuthHeader(request);
 
-            // Проверка на валидность токена
+
             if (jwtUtil.isInvalid(token)) {
                 return this.onError(exchange, "Authorization header is invalid", HttpStatus.UNAUTHORIZED);
             }
 
-            // Добавление информации о пользователе в запрос
+
             this.populateRequestWithHeaders(exchange, token);
         }
 
@@ -58,12 +58,12 @@ public class AuthenticationFilter implements GatewayFilter {
     }
 
     private String getAuthHeader(ServerHttpRequest request) {
-        // Извлечение токена из заголовка Authorization
+
         String authHeader = request.getHeaders().getOrEmpty("Authorization").get(0);
 
-        // Проверка, начинается ли токен с "Bearer "
+
         if (authHeader.startsWith("Bearer ")) {
-            return authHeader.substring(7); // Убираем "Bearer " из начала строки
+            return authHeader.substring(7);
         } else {
             throw new IllegalArgumentException("Authorization header must start with Bearer ");
         }

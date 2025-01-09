@@ -17,6 +17,10 @@ spring:
           uri: lb://WAREHOUSE-SERVICE
           predicates:
             - Path=/api/v1/warehouse/**
+        - id: company-service
+          uri: lb://COMPANY-SERVICE
+          predicates:
+            - Path=/api/v1/company/**
 
 
 springdoc:
@@ -33,6 +37,8 @@ springdoc:
         url: /api/v1/transport/v3/api-docs
       - name: warehouse-service
         url: /api/v1/warehouse/v3/api-docs
+      - name: company-service
+        url: /api/v1/company/v3/api-docs
 
 eureka:
   client:
