@@ -65,6 +65,22 @@ services:
     ports:
       - "8084:8084"
 
+  company-service:
+    build:
+      context: ./company-service
+    container_name: company_service
+    depends_on:
+      - postgres
+      - service-register
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/company
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-register:8761/eureka/
+    ports:
+      - "8085:8085"
+
   transport-service:
     build:
       context: ./transport-service
