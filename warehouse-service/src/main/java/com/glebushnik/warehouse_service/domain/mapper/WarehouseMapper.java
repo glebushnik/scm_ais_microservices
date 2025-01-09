@@ -6,8 +6,11 @@ import com.glebushnik.warehouse_service.domain.entity.Warehouse;
 import org.springframework.stereotype.Service;
 import com.glebushnik.warehouse_service.domain.entity.Item;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class WarehouseMapper {
@@ -19,10 +22,18 @@ public class WarehouseMapper {
     }
 
     public WarehouseResponseDTO entityToDto(Warehouse warehouse) {
+        if (warehouse == null) {
+            return null;
+        }
 
-        List<UUID> itemIds = warehouse.getItems().stream()
+        List<Item> items = warehouse.getItems();
+        List<UUID> itemIds = (items == null || items.isEmpty())
+                ? null
+                : items.stream()
+                .filter(Objects::nonNull)
                 .map(Item::getId)
-                .toList();
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
 
         return new WarehouseResponseDTO(
                 warehouse.getId(),
@@ -30,9 +41,7 @@ public class WarehouseMapper {
                 warehouse.getCompanyId(),
                 warehouse.getCoords(),
                 warehouse.getAddress(),
-                warehouse.getItems().stream()
-                        .map(Item::getId)
-                        .toList(),
+                itemIds,
                 warehouse.getTransportIds(),
                 warehouse.getUserIds()
         );
